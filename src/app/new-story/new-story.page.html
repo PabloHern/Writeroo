@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-row>
+      <ion-button (click)="goBack()" color="light">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+      <ion-title>New Story</ion-title>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <div>
+      <form [formGroup]="storyForm" (ngSubmit)="onSubmit()">
+        <ion-item>
+          <ion-textarea type="text" formControlName="title" id="title" name="title" autoGrow="true" maxLength="200">
+          </ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-textarea type="text" formControlName="content" [(ngModel)]="textValue" id="content" name="content"
+            autoGrow="true" maxLength="2000">
+          </ion-textarea>
+        </ion-item>
+        <ion-label *ngIf="textValue">
+          {{textValue.length}} / {{maxChar}}
+        </ion-label>
+        <ion-button type="submit" color="light">Create </ion-button>
+      </form>
+
+    </div>
+  </ion-list>
+
+</ion-content>

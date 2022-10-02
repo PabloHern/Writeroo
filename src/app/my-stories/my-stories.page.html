@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-row>
+      <ion-button (click)="goBack()" color="light">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+      <ion-title>My Stories</ion-title>
+    </ion-row>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-row *ngFor="let s of stories">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{s.title}}</ion-card-title>
+        </ion-card-header>
+        <ion-item>
+          <ion-label class="ion-margin-right">
+            <p>{{s.content}}</p>
+          </ion-label>
+          <ion-button (click)="goToStory(s.id)">
+            <ion-icon name="book-outline"></ion-icon>
+          </ion-button>
+          <ion-button color="secondary" (click)="downloadPDF(s.id)">
+            <ion-icon name="download-outline"></ion-icon>
+          </ion-button>
+          <ion-button color="danger" (click)="presentAlert(s.id)">
+            <ion-icon name="trash-bin-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-card>
+    </ion-row>
+  </ion-list>
+  <ion-button expand="full" (click)="createStory()">Create</ion-button>
+</ion-content>
