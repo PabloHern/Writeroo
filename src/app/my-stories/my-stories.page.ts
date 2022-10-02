@@ -12,8 +12,9 @@ import { AlertController } from '@ionic/angular';
 export class MyStoriesPage implements OnInit {
 
   stories: any = [];
-  story: any;
+  story: any = '';
   doc: any;
+  download: boolean = false;
 
   constructor(private alertController: AlertController, private storyService: StoryService, private router: Router, private location: Location) { }
 
@@ -28,9 +29,17 @@ export class MyStoriesPage implements OnInit {
       this.stories = response;
     });
   }
-  getStory(id: any) {
+  getStory(id: any, download) {
     this.storyService.getStory(id).subscribe(response => {
       this.story = response;
+      if (download) {
+        this.doc = new jsPDF();
+        this.doc.setFontSize(30);
+        this.doc.text(this.story.title, 10, 10, { maxWidth: 200 })
+        this.doc.setFontSize(16);
+        this.doc.text(this.story.content, 10, 30, { maxWidth: 190 })
+        this.doc.save(`${this.story.title}.pdf`);
+      }
     });
   }
   goBack(): void {
@@ -45,16 +54,10 @@ export class MyStoriesPage implements OnInit {
     });
   }
   downloadPDF(id) {
-    console.log(id);
-    this.getStory(id);
-    if (this.story) {
-      this.doc = new jsPDF();
-      this.doc.setFontSize(30);
-      this.doc.text(this.story.title, 10, 10, { maxWidth: 200 })
-      this.doc.setFontSize(16);
-      this.doc.text(this.story.content, 10, 30, { maxWidth: 190 })
-      this.doc.save(`${this.story.title}.pdf`);
-    }
+    this.download = true;
+    this.getStory(id, this.download);
+    this.download = false;
+
   }
   createStory() {
     this.router.navigateByUrl("new-story");
